@@ -6,6 +6,14 @@
 
 如果您觉得本插件对您有所帮助,欢迎star~
 
+## 更新日志
+
+2022.01.28 - 接入guoke提供本地缓存思路,减少远端接口加载次数
+
+![image](https://user-images.githubusercontent.com/42985524/151571668-4dac3aa2-8c06-4f97-acba-e3c9ea12090a.png)
+
+![image](https://user-images.githubusercontent.com/42985524/151571727-e00b33d3-adb8-405b-9d67-32676f5cbdd0.png)
+
 ## 远端接口地址
 
 项目引用接口网站:https://www.xxe.pub
@@ -13,8 +21,6 @@
 目前可正常使用 实际使用效果不错 欢迎持续提供分类以及相关代码
 
 ![image](https://user-images.githubusercontent.com/42985524/151474775-5ee2909b-fb38-41b8-adb0-59fb061d350b.png)
-
-
 
 
 ## 介绍
