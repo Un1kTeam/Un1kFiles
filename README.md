@@ -45,7 +45,7 @@
 
 ## 使用详情
 
-![image](https://www.xxe.pub/1.gif)
+https://www.xxe.pub/1.gif
 
 1.后台管理分类、文件、payloads
 
