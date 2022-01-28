@@ -45,7 +45,7 @@
 
 ## 使用详情
 
-![image](/h4ckdepy/Un1kFiles/blob/main/jcuo5-f8zzg.gif?raw=true)
+![image](https://github.com/h4ckdepy/Un1kFiles/blob/main/jcuo5-f8zzg.gif?raw=true)
 
 1.后台管理分类、文件、payloads
 
