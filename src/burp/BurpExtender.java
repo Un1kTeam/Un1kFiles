@@ -52,7 +52,7 @@ public class BurpExtender implements IBurpExtender,IContextMenuFactory,Clipboard
         if (messages == null || messages.length == 0) return null;
 
         //判断是否是Repeater模块
-        if(invocation.getToolFlag() == IBurpExtenderCallbacks.TOOL_REPEATER) {
+
 
             JMenu jMenu = new JMenu("Un1kFiles"); //菜单主目录
 
@@ -87,7 +87,7 @@ public class BurpExtender implements IBurpExtender,IContextMenuFactory,Clipboard
 
             //父级菜单
             listMenuItems.add(jMenu);
-        }
+
         return listMenuItems;
     }
 
