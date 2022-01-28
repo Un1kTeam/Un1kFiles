@@ -4,6 +4,8 @@
 
 博客: [blog](https://blog.happysec.cn)
 
+如果您觉得本插件对您有所帮助,欢迎star~
+
 ## 远端接口地址
 
 项目引用接口网站:https://www.xxe.pub
