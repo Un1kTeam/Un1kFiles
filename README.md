@@ -89,7 +89,7 @@
             menuItem_php_behinder.addActionListener(new ActionListener() { //给菜单php添加监听事件
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    copyMessages("menuItem_php_behinder"); //向私有方法获取php有关的木马代码 后期根据子菜单拓展 拿到冰蝎子、哥斯拉的木马区分
+                    copyMessages("menuItem_php_behinder"); //向私有方法获取php有关的木马代码 后期根据子菜单拓展 拿到冰蝎、哥斯拉的木马区分
                 }
             });
             
