@@ -8,9 +8,11 @@
 
 项目引用接口网站:https://www.xxe.pub
 
-目前可正常使用 实际使用效果不错
+目前可正常使用 实际使用效果不错 欢迎持续提供分类以及相关代码
 
-![image](https://user-images.githubusercontent.com/42985524/151464700-5e2d371b-148a-4c20-88f0-64dac7fa09fc.png)
+![image](https://user-images.githubusercontent.com/42985524/151474775-5ee2909b-fb38-41b8-adb0-59fb061d350b.png)
+
+
 
 
 ## 介绍
