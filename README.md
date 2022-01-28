@@ -72,3 +72,32 @@
 3.如果有经常需要使用到的代码以及好用的文件,请在issue分享,采集到一定规模将以sql文件形式共享大家
 
 4.如有bug,请在issue中提出,如果你直接能解决bug,请教我一下,谢谢
+
+## 本地内网版使用
+
+找到对应代码循环添加子父菜单注释下 替换为
+
+```
+            JMenu menuItem_php = new JMenu("PHP"); //创建php父菜单
+            JMenuItem menuItem_php_behinder = new JMenuItem("冰蝎"); //冰蝎木马
+            menuItem_php.add(menuItem_php_behinder);//把冰蝎木马添加到子菜单
+```
+
+之后加入监听器
+
+```
+            menuItem_php_behinder.addActionListener(new ActionListener() { //给菜单php添加监听事件
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    copyMessages("menuItem_php_behinder"); //向私有方法获取php有关的木马代码 后期根据子菜单拓展 拿到冰蝎子、哥斯拉的木马区分
+                }
+            });
+            
+            if(messages.equals("menuItem_php_behinder")){
+            StringBuilder py = new StringBuilder("木马代码");
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(py.toString()), this); //操作剪切板
+            this.stdout.println("复制冰蝎PHP木马成功!密码pass,请直接粘贴!");
+        }
+```
+
+可以封装成一个方法批量加入,建议只编译木马类有关代码用于文件上传测试。
