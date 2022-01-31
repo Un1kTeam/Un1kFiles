@@ -1,12 +1,18 @@
 # Un1kFiles - In order to quickly obtain malicious code
 
+如果您觉得本插件对您有所帮助,欢迎star,万分感谢!
+
 作者: [@depy](https://github.com/h4ckdepy)
 
 博客: [blog](https://blog.happysec.cn)
 
-如果您觉得本插件对您有所帮助,欢迎star~
 
 ## 更新日志
+
+2022.01.28 - 接入断网检测,防止因为无网使用插件导致菜单卡死,影响使用
+
+![image](https://user-images.githubusercontent.com/42985524/151748047-231a2501-5447-409a-a9d0-e94f7b31c54c.png)
+
 
 2022.01.28 - 接入guoke提供本地缓存思路,减少远端接口加载次数
 
