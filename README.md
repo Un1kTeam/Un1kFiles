@@ -1,4 +1,4 @@
-# Un1kFiles - In order to quickly obtain malicious code
+# Un1kFiles
 
 如果您觉得本插件对您有所帮助,欢迎star,万分感谢!
 
@@ -6,52 +6,47 @@
 
 博客: [blog](https://blog.happysec.cn)
 
+## Notice
 
-## 更新日志
+接口网站在多点ping时长为50ms左右 可以安心使用默认插件 
+
+![image](https://user-images.githubusercontent.com/42985524/151750549-48729081-2b67-42b8-909b-bbf09eca88f9.png)
+
+如果对于加载第三方网站数据十分介意 请自行重新编译接口
+
+## Update log
 
 2022.01.28 - 接入断网检测,防止因为无网使用插件导致菜单卡死,影响使用
 
 ![image](https://user-images.githubusercontent.com/42985524/151748047-231a2501-5447-409a-a9d0-e94f7b31c54c.png)
 
-
 2022.01.28 - 接入guoke提供本地缓存思路,减少远端接口加载次数
-
-![image](https://user-images.githubusercontent.com/42985524/151571668-4dac3aa2-8c06-4f97-acba-e3c9ea12090a.png)
 
 ![image](https://user-images.githubusercontent.com/42985524/151571727-e00b33d3-adb8-405b-9d67-32676f5cbdd0.png)
 
-## 远端接口地址
+## Introduce
 
-项目引用接口网站:https://www.xxe.pub
+**Un1kFiles**是基于 `BurpSuite` 插件 `JavaAPI` 开发的`快速获取常用恶意文件代码`、`常用漏洞测试payload`、`常用配置文件代码`的辅助型插件。
 
-目前可正常使用 实际使用效果不错 欢迎持续提供分类以及相关代码
+该插件通过获取远程api数据,获取代码列表和代码分类列表,用户通过选择相应的代码分类,再选择需要用到的代码,从而简单迅速得将常用代码拷贝至剪切板中,从而避免由于忘记文件、代码位置导致的无法找到需要使用的代码的情况以及可能因更换环境无法从本机获得代码从而需要四处检索的过程。
 
-![image](https://user-images.githubusercontent.com/42985524/151474775-5ee2909b-fb38-41b8-adb0-59fb061d350b.png)
+这将极大提高我们测试人员在日常渗透测试过程中效率。
 
-
-## 介绍
-
-**Un1kFiles**是基于 `BurpSuite` 插件 `JavaAPI` 开发的恶意代码、payload快速远程获取的辅助型插件。
-
-该插件通过远程api,获取文件分类表后生成菜单,进一步根据分类生成子菜单,用户通过选择相应的文件、测试payload,简单迅速得将代码拷贝至剪切板中,从而避免繁琐的找代码、找测试payload过程,提高渗透测试效率。
-
-
-## 使用方法
+## Installation
 
 1.下载插件jar包文件,或者自行编译源代码。
 
 2.插件装载: `Extender - Extensions - Add - Select File - Next`
 
-## 插件优点
+## Advantages
 
-1. 获取迅速
+1. 获取迅速,代码集成
 2. 配套web后台管理,方便更新管理
 3. 插件端即时更新,无需重新编译、下载jar包
 
+## Details
 
-## 使用详情
-
-https://www.xxe.pub/1.gif
+动图: https://www.xxe.pub/1.gif
 
 1.后台管理分类、文件、payloads
 
@@ -75,13 +70,11 @@ https://www.xxe.pub/1.gif
 
 ![image](https://user-images.githubusercontent.com/42985524/151457469-6337a253-80d8-4b0f-8038-1d55e47f0fa9.png)
 
-
-
-**注意:以上操作均为实时操作右键点击后拷贝,达到api更新即可插件实时更新使用的效果**
+**以上操作均为实时操作右键点击后拷贝,达到api更新即可插件实时更新使用的效果**
 
 ![image](https://user-images.githubusercontent.com/42985524/151457566-ce6533c0-7d38-4766-8b45-3cf2e6e22ea1.png)
 
-## 其他
+## Others
 
 1.本插件仅用于安全测试研究学习 使用时请遵守《中华人民共和国网络安全法》
 
@@ -91,31 +84,31 @@ https://www.xxe.pub/1.gif
 
 4.如有bug,请在issue中提出,如果你直接能解决bug,请教我一下,谢谢
 
-## 本地内网版使用
+## Intranet version
 
 找到对应代码循环添加子父菜单注释下 替换为
 
 ```
-            JMenu menuItem_php = new JMenu("PHP"); //创建php父菜单
-            JMenuItem menuItem_php_behinder = new JMenuItem("冰蝎"); //冰蝎木马
-            menuItem_php.add(menuItem_php_behinder);//把冰蝎木马添加到子菜单
+JMenu menuItem_php = new JMenu("PHP"); //创建php父菜单
+JMenuItem menuItem_php_behinder = new JMenuItem("冰蝎"); //冰蝎木马
+menuItem_php.add(menuItem_php_behinder);//把冰蝎木马添加到子菜单
 ```
 
 之后加入监听器
 
 ```
-            menuItem_php_behinder.addActionListener(new ActionListener() { //给菜单php添加监听事件
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    copyMessages("menuItem_php_behinder"); //向私有方法获取php有关的木马代码 后期根据子菜单拓展 拿到冰蝎、哥斯拉的木马区分
-                }
-            });
-            
-            if(messages.equals("menuItem_php_behinder")){
-            StringBuilder py = new StringBuilder("木马代码");
-            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(py.toString()), this); //操作剪切板
-            this.stdout.println("复制冰蝎PHP木马成功!密码pass,请直接粘贴!");
+menuItem_php_behinder.addActionListener(new ActionListener() { //给菜单php添加监听事件
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        copyMessages("menuItem_php_behinder"); //向私有方法获取php有关的木马代码 后期根据子菜单拓展 拿到冰蝎、哥斯拉的木马区分
         }
+});
+
+if(messages.equals("menuItem_php_behinder")){
+    StringBuilder py = new StringBuilder("木马代码");
+    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(py.toString()), this); //操作剪切板
+    this.stdout.println("复制**成功!密码pass,请直接粘贴!");
+}
 ```
 
 可以封装成一个方法批量加入,建议只编译木马类有关代码用于文件上传测试。
