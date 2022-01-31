@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
@@ -18,7 +20,6 @@ public class BurpExtender implements IBurpExtender,IContextMenuFactory,Clipboard
 
     private final static String NAME = "Un1kFiles";
     private PrintWriter stdout;
-    private String[] catas;
 
     @Override
     public void registerExtenderCallbacks(final IBurpExtenderCallbacks callbacks) {
@@ -28,79 +29,128 @@ public class BurpExtender implements IBurpExtender,IContextMenuFactory,Clipboard
 
         //设置信息输出
         PrintWriter stdout = new PrintWriter(callbacks.getStdout(), true);
-        stdout.println("@Name:un1kFiles");
+        stdout.println("@Name:Un1kFiles");
         stdout.println("@Author:depy@happysec.cn");
-        stdout.println("@Version:3.1.4");
+        stdout.println("@Version:3.1.6");
         stdout.println("@Github:https://github.com/h4ckdepy/Un1kFiles");
-        stdout.println("@Introduce:A plug-in for quickly pasting malicious file code.");
-
-        //实例引入输出ui属性
+        stdout.println("@Introduce:A plug-in for quickly pasting malicious code.");
         this.stdout = new PrintWriter(callbacks.getStdout(), true);
-        //获取更新
-        this.checkupdate();
-        //注册工厂
-        callbacks.registerContextMenuFactory(this);
+        //检测网络是否畅通 防止因为无网络环境导致右键菜单卡死的问题
+        String host = "https://www.xxe.pub";
+
+
+        int status = 0;
+
+        try {
+            status = this.testWsdlConnection(host);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(status == 200){
+            this.stdout.println("[+] API connect success.");
+            //获取更新
+            this.checkupdate();
+            //注册工厂
+            callbacks.registerContextMenuFactory(this);
+        }else{
+            this.stdout.println("[-] API connect error.The plug-in was temporarily closed.");
+        }
+    }
+
+    //测试接口是否可以访问
+    public  int testWsdlConnection(String address) throws Exception {
+        int status = 404;
+        try {
+            URL urlObj = new URL(address);
+            HttpURLConnection oc = (HttpURLConnection) urlObj.openConnection();
+            oc.setUseCaches(false);
+            oc.setReadTimeout(1000);
+            status = oc.getResponseCode();// 请求状态
+            if (200 == status) {
+                return status;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return status;
+
     }
 
     //菜单创建
     @Override
     public List<JMenuItem> createMenuItems(final IContextMenuInvocation invocation) {
 
-        this.checkupdate(); //检查更新
         List<JMenuItem> listMenuItems = new ArrayList<JMenuItem>();
         JMenu jMenu = new JMenu("Un1kFiles"); //菜单主目录
+        //检测api连通性
 
-        //循环添加子父菜单
-        String fullFilePath = System.getProperty("java.io.tmpdir")+"updatecheckcatas"; //从缓存文件中获取菜单字符串;
-        String txt = null;
+        int teststatus = 0;
 
         try {
-            txt = this.readFileByPath(fullFilePath);
-        } catch (IOException e) {
+            teststatus = this.testWsdlConnection("https://www.xxe.pub");
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        String temp[] = txt.split(";"); //切割字符串 拿到菜单
-
-        for(String type : temp)
-
-        {
-
-            JMenu menuItem = new JMenu(type); //创建子父菜单
-            String pathtype = System.getProperty("java.io.tmpdir")+this.StringToMd5(type); //获取菜单保存的文件地址
-            String s2 = null;
-
+        if(teststatus == 200){
+            this.checkupdate(); //检查更新
+            //循环添加子父菜单
+            String fullFilePath = System.getProperty("java.io.tmpdir")+"updatecheckcatas"; //从缓存文件中获取菜单字符串;
+            String txt = null;
             try {
-                s2 = this.readFileByPath(pathtype);
+                txt = this.readFileByPath(fullFilePath);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            String temp2[] = s2.split(";"); //该分类下的文件列表
-            //循环给子父菜单添加子菜单
+            String temp[] = txt.split(";"); //切割字符串 拿到菜单
 
-            if(s2.equals(null)){
+            for(String type : temp)
 
-            }else{
-                for(String type2 : temp2) {
-                    JMenuItem menuItem2 = new JMenuItem(type2); //冰蝎木马
-                    menuItem2.addActionListener(new ActionListener() { //给菜单php添加监听事件
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            copyMessages(type2); //向私有方法获取php有关的木马代码 后期根据子菜单拓展 拿到冰蝎子、哥斯拉的木马区分
-                        }
-                    });
-                    menuItem.add(menuItem2);
+            {
+
+                JMenu menuItem = new JMenu(type); //创建子父菜单
+                String pathtype = System.getProperty("java.io.tmpdir")+this.StringToMd5(type); //获取菜单保存的文件地址
+                String s2 = null;
+
+                try {
+                    s2 = this.readFileByPath(pathtype);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+
+                String temp2[] = s2.split(";"); //该分类下的文件列表
+                //循环给子父菜单添加子菜单
+
+                if(s2.equals(null)){
+
+                }else{
+                    for(String type2 : temp2) {
+                        JMenuItem menuItem2 = new JMenuItem(type2); //冰蝎木马
+                        menuItem2.addActionListener(new ActionListener() { //给菜单php添加监听事件
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                copyMessages(type2); //向私有方法获取php有关的木马代码 后期根据子菜单拓展 拿到冰蝎子、哥斯拉的木马区分
+                            }
+                        });
+                        menuItem.add(menuItem2);
+                    }
+                }
+                jMenu.add(menuItem); //添加到子父菜单
             }
-            jMenu.add(menuItem); //添加到子父菜单
+
+
+            //父级菜单
+            listMenuItems.add(jMenu);
+            return listMenuItems;
+        }else{
+            this.stdout.println("网络异常。");
+            JMenuItem errornet = new JMenuItem("NetworkError");
+            listMenuItems.add(errornet);
+            return listMenuItems;
         }
 
-
-        //父级菜单
-        listMenuItems.add(jMenu);
-
-        return listMenuItems;
     }
 
     //检查更新
